@@ -99,3 +99,39 @@ def get_infos_2d(equa_name='PDE1'):
 
         fside = lambda x: -(da_dx(x) * du_dx(x) + a(x) * ddu_dxx(x) + da_dy(x) * du_dy(x) + a(x) * ddu_dyy(x))
         return utrue, fside
+    elif str.upper(equa_name) == 'MULTISCALE_EPS0P5':  # update and complete this senario
+        # -div(a·grad u)=f -->-[d(a·grad u)/dx + d(a·grad u)/dy] = f
+        #                  -->-[(da/dx)·(du/dx) + a·ddu/dxx + (da/dy)·(du/dy)+ a·ddu/dyy] = f
+        # where div is divergence operator(散度算子)， grad is gradient operator(梯度算子)
+        utrue = lambda x: 0.25*(x[:, 0:1]*x[:, 0:1]+x[:, 1:2]*x[:, 1:2])*(x[:, 0:1]*x[:, 0:1]+x[:, 1:2]*x[:, 1:2])+\
+                          (0.5/(16*torch.pi))*(x[:, 0:1]*x[:, 0:1]+x[:, 1:2]*x[:, 1:2])*\
+                          torch.sin(2.0*torch.pi * (x[:, 0:1] * x[:, 0:1] + x[:, 1:2] * x[:, 1:2])/0.5) + \
+                          (0.5*0.5/(32*torch.pi*torch.pi))*\
+                          torch.cos(2.0*torch.pi * (x[:, 0:1] * x[:, 0:1] + x[:, 1:2] * x[:, 1:2])/0.5)
+        a = lambda x: 1.0/(4.0+torch.cos(2*torch.pi*(x[:, 0:1]*x[:, 0:1]+x[:, 1:2]*x[:, 1:2])/0.5))
+        fside = lambda x: -(x[:, 0:1]*x[:, 0:1]+x[:, 1:2]*x[:, 1:2])
+        return utrue, fside
+    elif str.upper(equa_name) == 'MULTISCALE_EPS0P2':  # update and complete this senario
+        # -div(a·grad u)=f -->-[d(a·grad u)/dx + d(a·grad u)/dy] = f
+        #                  -->-[(da/dx)·(du/dx) + a·ddu/dxx + (da/dy)·(du/dy)+ a·ddu/dyy] = f
+        # where div is divergence operator(散度算子)， grad is gradient operator(梯度算子)
+        utrue = lambda x: 0.25 * (x[:, 0:1]*x[:, 0:1]+x[:, 1:2]*x[:, 1:2])*(x[:, 0:1]*x[:, 0:1]+x[:, 1:2]*x[:, 1:2])+\
+                          (0.2 / (16 * torch.pi)) * (x[:, 0:1] * x[:, 0:1] + x[:, 1:2] * x[:, 1:2]) * \
+                          torch.sin(2.0 * torch.pi * (x[:, 0:1] * x[:, 0:1] + x[:, 1:2] * x[:, 1:2]) / 0.2) + \
+                          (0.2 * 0.2 / (32 * torch.pi * torch.pi)) * \
+                          torch.cos(2.0 * torch.pi * (x[:, 0:1] * x[:, 0:1] + x[:, 1:2] * x[:, 1:2]) / 0.2)
+        a = lambda x: 1.0 / (4.0 + torch.cos(2 * torch.pi * (x[:, 0:1] * x[:, 0:1] + x[:, 1:2] * x[:, 1:2]) / 0.2))
+        fside = lambda x: -(x[:, 0:1] * x[:, 0:1] + x[:, 1:2] * x[:, 1:2])
+        return utrue, fside
+    elif str.upper(equa_name) == 'MULTISCALE_EPS0P1':  # update and complete this senario
+        # -div(a·grad u)=f -->-[d(a·grad u)/dx + d(a·grad u)/dy] = f
+        #                  -->-[(da/dx)·(du/dx) + a·ddu/dxx + (da/dy)·(du/dy)+ a·ddu/dyy] = f
+        # where div is divergence operator(散度算子)， grad is gradient operator(梯度算子)
+        utrue = lambda x: 0.25*(x[:, 0:1]*x[:, 0:1]+x[:, 1:2]*x[:, 1:2])*(x[:, 0:1]*x[:, 0:1]+x[:, 1:2]*x[:, 1:2])+\
+                          (0.1/(16*torch.pi))*(x[:, 0:1]*x[:, 0:1]+x[:, 1:2]*x[:, 1:2])*\
+                          torch.sin(2.0*torch.pi * (x[:, 0:1] * x[:, 0:1] + x[:, 1:2] * x[:, 1:2])/0.1) + \
+                          (0.1*0.1/(32*torch.pi*torch.pi))*\
+                          torch.cos(2.0*torch.pi * (x[:, 0:1] * x[:, 0:1] + x[:, 1:2] * x[:, 1:2])/0.1)
+        a = lambda x: 1.0/(4.0+torch.cos(2*torch.pi*(x[:, 0:1]*x[:, 0:1]+x[:, 1:2]*x[:, 1:2])/0.1))
+        fside = lambda x: -(x[:, 0:1]*x[:, 0:1]+x[:, 1:2]*x[:, 1:2])
+        return utrue, fside

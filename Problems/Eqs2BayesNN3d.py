@@ -15,14 +15,47 @@ def get_infos_3d(equa_name='PDE1'):
         utrue = lambda x: 10*torch.sin(torch.pi*x[:, 0:1]) * torch.sin(torch.pi*x[:, 1:2]) * torch.sin(torch.pi*x[:, 2:3])
         fside = lambda x: -30.0*torch.pi*torch.pi*torch.sin(torch.pi*x[:, 0:1]) * torch.sin(torch.pi*x[:, 1:2]) * torch.sin(torch.pi*x[:, 2:3])
         return utrue, fside
+    elif str.upper(equa_name) == 'LINEAR_POISSON2':
+        # Laplace U = f
+        # u(x,y,z)=sin(pi*x)sin(pi*y)sin(pi*z)+0.1sin(5pi*x)sin(5pi*y)sin(5pi*z)
+        utrue = lambda x: torch.sin(np.pi * x[:, 0:1]) * torch.sin(np.pi * x[:, 1:2]) * torch.sin(np.pi * x[:, 2:3]) + \
+                          0.1 * torch.sin(5 * torch.pi * x[:, 0:1]) * torch.sin(5 * torch.pi * x[:, 1:2]) * \
+                          torch.sin(5 * torch.pi * x[:, 2:3])
+        fside = lambda x: -3.0*torch.pi*torch.pi*torch.sin(torch.pi*x[:, 0:1])*torch.sin(torch.pi*x[:, 1:2])*torch.sin(torch.pi*x[:, 2:3])\
+                          -0.1*75.0*torch.pi*torch.pi*torch.sin(5.0*torch.pi*x[:, 0:1])*torch.sin(5.0*torch.pi*x[:, 1:2])*torch.sin(5.0*torch.pi*x[:, 2:3])
+        return utrue, fside
+    elif str.upper(equa_name) == 'LINEAR_POISSON3':
+        # Laplace U = f
+        # u(x,y,z)=5*xyz(1-x)(1-y)(1-z)+0.1sin(5pi*x)sin(5pi*y)sin(5pi*z)
+        utrue = lambda x: 5.0*x[:, 0:1]*(1-x[:, 0:1]) * x[:, 1:2]*(1-x[:, 1:2]) * x[:, 2:3]*(1-x[:, 2:3]) + \
+                          0.1 * torch.sin(5 * torch.pi * x[:, 0:1]) * torch.sin(5 * torch.pi * x[:, 1:2]) * \
+                          torch.sin(5 * torch.pi * x[:, 2:3])
+        fside = lambda x: -10.0 * x[:, 1:2]*(1-x[:, 1:2]) * x[:, 2:3]*(1-x[:, 2:3])\
+                          -10.0*x[:, 0:1]*(1-x[:, 0:1]) * x[:, 2:3]*(1-x[:, 2:3])\
+                          -10.0*x[:, 0:1]*(1-x[:, 0:1]) * x[:, 1:2]*(1-x[:, 1:2]) \
+                          - 0.1*75.0*torch.pi*torch.pi*torch.sin(5.0*torch.pi*x[:, 0:1])*\
+                          torch.sin(5.0*torch.pi * x[:, 1:2]) * torch.sin(5.0*torch.pi*x[:, 2:3])
+        return utrue, fside
+    elif str.upper(equa_name) == 'LINEAR_POISSON4':
+        # Laplace U = f
+        # u(x,y,z)=50*xyz(1-x)(1-y)(1-z)+0.1sin(5pi*x)sin(5pi*y)sin(5pi*z)
+        utrue = lambda x: 50.0*x[:, 0:1]*(1-x[:, 0:1]) * x[:, 1:2]*(1-x[:, 1:2]) * x[:, 2:3]*(1-x[:, 2:3]) + 1.0 + \
+                          0.1 * torch.sin(5 * torch.pi * x[:, 0:1]) * torch.sin(5 * torch.pi * x[:, 1:2]) * \
+                          torch.sin(5 * torch.pi * x[:, 2:3])
+        fside = lambda x: -100.0*x[:, 1:2]*(1-x[:, 1:2]) * x[:, 2:3]*(1-x[:, 2:3])\
+                          -100.0*x[:, 0:1]*(1-x[:, 0:1]) * x[:, 2:3]*(1-x[:, 2:3])\
+                          -100.0*x[:, 0:1]*(1-x[:, 0:1]) * x[:, 1:2]*(1-x[:, 1:2]) \
+                          - 0.1*75.0*torch.pi*torch.pi*torch.sin(5.0*torch.pi*x[:, 0:1])*\
+                          torch.sin(5.0*torch.pi * x[:, 1:2]) * torch.sin(5.0*torch.pi*x[:, 2:3])
+        return utrue, fside
     elif str.upper(equa_name) == 'PDE1':
         # 0.01*Laplace U + U(U*U-1.0) = f
         # u(x,y,z)=sin(pi*x)sin(pi*y)sin(pi*z)
         utrue = lambda x: torch.sin(torch.pi*x[:, 0:1]) * torch.sin(torch.pi*x[:, 1:2]) * torch.sin(torch.pi*x[:, 2:3])
         fside = lambda x: 0.01 * (-3.0*np.pi**2) * utrue(x) + utrue(x)*(torch.square(utrue(x))-1.0)
         return utrue, fside
-    elif str.upper(equa_name) == 'PDE2':   # update and complete this senario
-        # 0.01*Laplace U + K*U = f
+    elif str.upper(equa_name) == 'QUASI_PDE2':   # update and complete this senario
+        # Laplace U + K*U = f
         # u(x,y,z)=sin(pi*x)sin(pi*y)sin(pi*z)+0.1sin(5pi*x)sin(5pi*y)sin(5pi*z)
         # k(x,y,z)=xyz(1-x)(1-y)(1-z)
         utrue = lambda x: torch.sin(np.pi*x[:, 0:1]) * torch.sin(np.pi*x[:, 1:2]) * torch.sin(np.pi*x[:, 2:3]) + \
@@ -32,7 +65,7 @@ def get_infos_3d(equa_name='PDE1'):
         high_freq = lambda x: torch.sin(5 * torch.pi * x[:, 0:1])*torch.sin(5 * torch.pi * x[:, 1:2])*\
                           torch.sin(5 * torch.pi * x[:, 2:3])
         ktrue = lambda x: x[:, 0:1]*(1-x[:, 0:1]) * x[:, 1:2]*(1-x[:, 1:2]) * x[:, 2:3]*(1-x[:, 2:3])
-        fside = lambda x: 0.01*(-3*(torch.pi**2)*low_freq(x) - 3*2.5*(torch.pi**2)*high_freq(x))+\
+        fside = lambda x: (-3*(torch.pi**2)*low_freq(x) - 3*2.5*(torch.pi**2)*high_freq(x))+\
                           ktrue(x) * utrue(x)
         return utrue, fside
     elif str.upper(equa_name) == 'PDE3':  # update and complete this senario
