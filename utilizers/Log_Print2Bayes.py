@@ -75,15 +75,15 @@ def print_log2pre_train_model(log_out=None):
     DNN_tools.log_string('The results for pre_train model!!!!!!!!', log_out)
 
 
-def print_log_mse_rel(mse2solu=0.01, rel2solu=0.01, mse2para=0.01, rel2para=0.01, mse2force=0.01, rel2force=0.01, log_out=None):
+def print_log_test_mse_rel(mse2solu=0.01, rel2solu=0.01, mse2para=0.01, rel2para=0.01, mse2force=0.01, rel2force=0.01, log_out=None):
     # 将运行结果打印出来
-    print('mean square error of mean-predict and exact for solution: %.10f\n' % mse2solu)
+    print('mean square error of mean-predict and exact for solution: %.10f' % mse2solu)
     print('relative error of mean-predict and exact for solution: %.10f\n' % rel2solu)
 
-    print('mean square error of mean-predict and exact for parameter: %.10f\n' % mse2para)
+    print('mean square error of mean-predict and exact for parameter: %.10f' % mse2para)
     print('relative error of mean-predict and exact for parameter: %.10f\n' % rel2para)
 
-    print('mean square error of mean-predict and exact for force: %.10f\n' % mse2force)
+    print('mean square error of mean-predict and exact for force: %.10f' % mse2force)
     print('relative error of mean-predict and exact for force: %.10f\n' % rel2force)
 
     DNN_tools.log_string('mean square error of mean-predict and exact for solution: %.10f' % mse2solu, log_out)
