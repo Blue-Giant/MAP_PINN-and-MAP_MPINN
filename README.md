@@ -1,5 +1,5 @@
 # 目的 
-Bayes PINN 进行偏微分方程的求解，包括Poisson， multi-scale Elliptic
+利用 MultiscalePINN with Maximum a Posterior 进行偏微分方程的求解，包括Poisson， multi-scale Elliptic
 
 # Remark
 1. Add the network of  2Hidden_Fourier_Sub and 3Hidden_Fourier_Sub for Bayes_1d_multiscale, correct the wrong of 
