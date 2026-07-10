@@ -1,6 +1,14 @@
 # 目的 
 利用 MultiscalePINN with Maximum a Posterior 进行偏微分方程的求解，包括Poisson， multi-scale Elliptic
 
+# 题目
+
+Multiscale PINN with Maximum A Posterior Estimation for Inverse Problems in Noisy Elliptic PDEs
+
+# 摘要
+
+Bayesian Physics-Informed Neural Networks (BPINN) provide a flexible framework for solving inverse problems governed by partial differential equations (PDEs) under the scenario with noisy and sparse observations. In posterior-based BPINN formulations, Hamiltonian Monte Carlo (HMC) is often used to sample the parameter posterior. Despite HMC's uncertainty quantification capability, its performance can deteriorate severely for complex and multiscale problems because of its strong sensitivity to step size, high computational cost and unstable convergence. To tackle these shortcomings, we replace posterior sampling with maximum a posterior (MAP) estimation and, in this work, develop a MAP-induced multiscale PINN (MAP-MPINN) by combining a posterior-based objective funtion with a Fourier feature mapping induced multiscale deep neural networks (called FFM-MscaleDNN). The proposed method is designed to deliver stable point estimates for the solution and unknown parameters while retaining the regularizing effect of the probabilistic formulation. Compared with HMC-driven BPINN, the proposed approach offers three main advantages: (1) it avoids sampling failures caused by unstable HMC sampling, (2) it is computationally more efficient, and (3) it is better suited to complex and multiscale PDEs. We assess this method on several noisy inverse problems, including the Poisson equations and multiscale elliptic PDEs in one- to three-dimensional Euclidean space, as well as the high-dimensional Poisson equation. The numerical results show that the proposed method provides accurate and robust point estimation across different noise levels and problem complexities, and that the FFM-MscaleDNN substantially improves performance of Bayesian neural networks on problems with complex scale information. 
+
 # Remark
 1. Add the network of  2Hidden_Fourier_Sub and 3Hidden_Fourier_Sub for Bayes_1d_multiscale, correct the wrong of 
    get_get_infos_1d for PDE5 in Eqs2BayesNN
